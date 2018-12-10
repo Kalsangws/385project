@@ -1,6 +1,16 @@
 import java.util.Scanner;
 
 
+/**
+ * File: LogInTester.java
+ * Input verification code
+ * @author Ha Tran
+ * @author Kalsang Sherpa
+ *
+ * @date 12/09/2018
+ * CPSC 385
+ */
+
 public class LogInTester {
     public static void main(String[] args) {   
         UserRepository ur = new UserRepository();

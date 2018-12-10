@@ -7,16 +7,16 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * File: LogIn.java
+ * Class containing hashmap of users to verify username and password
+ * @author Ha Tran
+ * @author Kalsang Sherpa
+ *
+ * @date 12/09/2018
+ * CPSC 385
  */
 
-/**
- *
- * @author ha
- */
 public class LogIn {
 
     private Map<String, User> manager = new HashMap<>();
@@ -25,6 +25,10 @@ public class LogIn {
     PhoneVerification pv;
     User user;
     
+    /*Constructor
+    * @param ur   object of UserRepository class
+    * @param user object of User class*/
+    */
     public LogIn(UserRepository ur, User user) {
         hsh = new Hash();
         this.ur = ur;
@@ -32,6 +36,11 @@ public class LogIn {
         pv = new PhoneVerification(user.getPhoneNumber());
     }
     
+    /* Method to return if password and username are valid
+    * @param username   
+    * @param password
+    * @return boolean true if password is equal to the hashed password from database else false
+    */
     public boolean firstFactorVerify(String username, String password) {
         Map<String, User> manager = ur.getManager();
         if (!manager.containsKey(username)) {
@@ -47,6 +56,12 @@ public class LogIn {
         }
     }
     
+    /* Method to return if pad is valid
+    * @param pv        object from PhoneVerification.java  
+    * @param username
+    * @param password
+    * @return boolean true if pad is valid
+    */
     public boolean verifyPad(PhoneVerification pv, String username, String pad) {
         Map<String, String> padManager = pv.getPadManager();
         if (!padManager.containsKey(username)) {

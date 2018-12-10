@@ -1,9 +1,22 @@
 
 import java.util.Random;
 
+/**
+ * File: Generator
+ *  Generates a Salt string with reference from https://stackoverflow.com/questions/20536566/creating-a-random-string-with-a-z-and-0-9-in-java
+ * @author Ha Tran
+ * @author Kalsang Sherpa
+ *
+ * @date 12/09/2018
+ * CPSC 385
+ */
+
 public class Generator {
     private int passLen = 5;
-    //https://stackoverflow.com/questions/20536566/creating-a-random-string-with-a-z-and-0-9-in-java
+    
+    /*Method to generate a random salt string
+    * @return String saltSr
+    */
     public String getSaltString() {
         String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuilder salt = new StringBuilder();

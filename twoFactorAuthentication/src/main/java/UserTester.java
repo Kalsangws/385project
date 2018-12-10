@@ -1,13 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
+ * File: UserTester.java
+ * 
+ * @author Ha Tran
+ * @author Kalsang Sherpa
  *
- * @author ha
+ * @date 12/09/2018
+ * CPSC 385
  */
+
 public class UserTester {
     public static void main (String[] args) {
         System.out.println("Let's test the user class.");

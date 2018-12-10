@@ -1,13 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
+ * File: PhoneVerificationTester.java
  *
- * @author ha
+ * @author Ha Tran
+ * @author Kalsang Sherpa
+ *
+ * @date 12/09/2018
+ * CPSC 385
  */
+
 public class PhoneVerificationTester {
     public static void main (String args[]) {
         User user = new User("user1", "pw1", "+18609774823");

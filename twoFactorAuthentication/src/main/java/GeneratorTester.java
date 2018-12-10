@@ -1,15 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
+ * File: GeneratorTester.java
+ * Prints the returned string from Generator.java
+ * @author Ha Tran
+ * @author Kalsang Sherpa
  *
- * @author ha
+ * @date 12/09/2018
+ * CPSC 385
  */
 public class GeneratorTester {
-    //GeneratorTester gt = new GeneratorTester();
+
     public static void main (String args[]) {
         Generator gr = new Generator();
         System.out.println("The one-time pad is: " + gr.getSaltString());

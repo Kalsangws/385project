@@ -9,6 +9,17 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
+/**
+ * File: PhoneVerification.java
+ * Twilio API is used to send SMS to mobile phones with verification code.
+ * @author Ha Tran
+ * @author Kalsang Sherpa
+ *
+ * @date 12/09/2018
+ * CPSC 385
+ */
+
 public class PhoneVerification {
     public static final String ACCOUNT_SID = "ACdfca22cd8dbe4b33add43aa3c5017ca1";
     public static final String AUTH_TOKEN = "0aa249f61cc08be388d5726ff470b96b";
@@ -19,6 +30,9 @@ public class PhoneVerification {
     Hash hsh;
     Map<String, String> padManager = new HashMap();
     
+    /*Constructor
+    * @param phoneNumber String
+    */
     public PhoneVerification(String phoneNumber) {
         hsh = new Hash();
         sendFromNumber = new PhoneNumber("+18606064653");
@@ -40,6 +54,9 @@ public class PhoneVerification {
         }
     }
     
+    /*Method to send one time pad*
+    * @param user object from user class
+    */
     public void sendOneTimePad(User user) {
         Generator gen = new Generator();
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
@@ -52,7 +69,7 @@ public class PhoneVerification {
             System.out.println(sendToNumber + " is not a valid phone number");
         }
     }
-    
+    /*Method to display pad*/
     public void displayPadManager() {
         for (HashMap.Entry<String, String> pad : padManager.entrySet()) {
             System.out.println("Key: " + pad.getKey() + " Value: " + pad.getValue());
@@ -62,7 +79,9 @@ public class PhoneVerification {
     public Map<String, String> getPadManager() {
         return padManager;
     }
-    
+    /*Method to verify pad
+    * @return boolean true with pad is valid
+    */
     public boolean verifyPad(String username, String pad) {
         if (!padManager.containsKey(username)) {
             System.out.println("This username does not exist");

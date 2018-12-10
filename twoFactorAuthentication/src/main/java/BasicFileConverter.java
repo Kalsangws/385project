@@ -3,12 +3,25 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * File: BasicFileConverter.java
+ * Creating a hashmap of users and pad to write store it in database.
+ *
+ * @author Ha Tran
+ * @author Kalsang Sherpa
+ *
+ * @date 12/09/2018
+ * CPSC 385
+ */
 public class BasicFileConverter implements FileConverter {
 
     private String fileName;
     private File file;
     private boolean fileExisted = false;
-
+    
+    /*Constructor
+    * @param filName name of file
+    */
     public BasicFileConverter(String fileName) {
         this.fileName = fileName;
         this.file = new File(fileName);
@@ -18,11 +31,16 @@ public class BasicFileConverter implements FileConverter {
             Logger.getLogger(BasicFileConverter.class.getName()).log(Level.SEVERE, "Error initializing file converter", e);
         }
     }
-
+    /* Method to check whether file exists
+    * @return true if file exists else false
+    */
     public boolean doesFileExist() {
         return fileExisted;
     }
-
+    
+    /* Writing user to database
+    * @param manager hashmap of users
+    */
     public void serializeUser(Map<String, User> manager) {
         try {
             FileOutputStream fileOut = new FileOutputStream(fileName, false);
@@ -35,6 +53,9 @@ public class BasicFileConverter implements FileConverter {
         }
     }
     
+    /* Writing pads to database
+    * @param padManager hashmap of pad
+    */
     public void serializePad(Map<String, String> padManager) {
         try {
             FileOutputStream fileOut = new FileOutputStream(fileName, false);
@@ -46,7 +67,10 @@ public class BasicFileConverter implements FileConverter {
             Logger.getLogger(BasicFileConverter.class.getName()).log(Level.SEVERE, "Error serializing the pad map", e);
         }
     }
-
+    
+    /* 
+    * @return Map<String, User>
+    */
     public Map<String, User> deserializeUser() {
         Map<String, User> manager = null;
         try {
@@ -61,6 +85,9 @@ public class BasicFileConverter implements FileConverter {
         return manager;
     }
 
+    /* 
+    * @return Map<String, String>
+    */
     public Map<String, String> deserializePad() {
         Map<String, String> padManager = null;
         try {
