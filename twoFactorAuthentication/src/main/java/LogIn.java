@@ -27,8 +27,8 @@ public class LogIn {
     
     /*Constructor
     * @param ur   object of UserRepository class
-    * @param user object of User class*/
-    */
+    * @param user object of User class
+    */   
     public LogIn(UserRepository ur, User user) {
         hsh = new Hash();
         this.ur = ur;
