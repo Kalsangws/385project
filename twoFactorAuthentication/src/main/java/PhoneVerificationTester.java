@@ -8,10 +8,11 @@
  *
  * @author ha
  */
-public class GeneratorTester {
-    //GeneratorTester gt = new GeneratorTester();
+public class PhoneVerificationTester {
     public static void main (String args[]) {
-        Generator gr = new Generator();
-        System.out.println("The one-time pad is: " + gr.getSaltString());
+        User user = new User("user1", "pw1", "+18609774823");
+        PhoneVerification pv = new PhoneVerification(user.getPhoneNumber());
+        pv.sendOneTimePad(user);
+        pv.displayPadManager();
     }
 }

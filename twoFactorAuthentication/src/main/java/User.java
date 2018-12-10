@@ -1,22 +1,12 @@
 
 import java.io.Serializable;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author Kalsang
- */
 public class User implements Serializable {
     private String username;
     private String password;
-    private int phoneNumber;
+    private String phoneNumber;
     /*Constructor*/
-    public User(String username, String password, int phoneNumber){
+    public User(String username, String password, String phoneNumber){
         this.username = username;
         this.password = password;
         this.phoneNumber = phoneNumber; 
@@ -28,7 +18,7 @@ public class User implements Serializable {
     public String getPassword() {
         return password;
     } 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }   
     /*Set methods*/
@@ -38,7 +28,8 @@ public class User implements Serializable {
     public void setPassword ( String password ) {
         this.password = password;
     } 
-    public void setPhoneNumber( int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
+        
         this.phoneNumber = phoneNumber;
     } 
     

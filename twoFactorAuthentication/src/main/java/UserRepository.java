@@ -1,6 +1,4 @@
 import java.io.*;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,8 +12,9 @@ public class UserRepository {
     private static final String USER_FILE_NAME = "src/main/java/user.txt";
     private FileConverter fileConverter;
     private Map<String, User> manager = new HashMap<>();
-
+    Hash hsh;
     public UserRepository() {
+        hsh = new Hash();
         fileConverter = new BasicFileConverter(USER_FILE_NAME);
         try {
             BufferedReader br = new BufferedReader(new FileReader(USER_FILE_NAME));
@@ -27,30 +26,13 @@ public class UserRepository {
             Logger.getLogger(UserRepository.class.getName()).log(Level.SEVERE, "Error reading file", e);
         }
     }
-    
-    // https://howtodoinjava.com/security/how-to-generate-secure-password-hash-md5-sha-pbkdf2-bcrypt-examples/
-    private String hash(String passwordToHash) {
-        String hashPassword = null;
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-512");
-            byte[] bytes = md.digest(passwordToHash.getBytes("UTF-8"));
-            StringBuilder sb = new StringBuilder();
-            for (byte oneByte : bytes) {
-                sb.append(Integer.toString((oneByte & 0xff) + 0x100, 16).substring(1));
-            }
-            hashPassword = sb.toString();
-        } catch (NoSuchAlgorithmException | IOException e) {
-            e.printStackTrace();
-        }
-        return hashPassword;
-    }
 
-    public boolean createUser(String username, String password, int phoneNumber) {
+    public boolean createUser(String username, String password, String phoneNumber) {
         if (!isUsernameValid(username) || !isPasswordValid(password) || !isPhoneNumberValid(phoneNumber)) {
             System.out.println("Failed to create this user: " + new User(username, password, phoneNumber));          
             return false;
         }    
-        manager.put(username, new User(username, hash(password), phoneNumber));
+        manager.put(username, new User(username, hsh.hash(password), phoneNumber));
         fileConverter.serializeUser(manager);
         System.out.println("Created: " + new User (username, password, phoneNumber));     
         return true;
@@ -61,33 +43,47 @@ public class UserRepository {
             return false;
         return true;
     }
-    public FileConverter getFileConverter() {
-        return fileConverter;
-    }
+
     private boolean isPasswordValid(String password) {
         if (password == null || password.length() == 0)
             return false;
         return true;
     }
 
-    private boolean isPhoneNumberValid(int phoneNumber) {
+    private boolean isPhoneNumberValid(String phoneNumber) {
+        if (phoneNumber == null || phoneNumber.length() != 12) {
+            System.out.println("The format of the phone number is wrong. The format should be: +1xxxxxxxxxx");
+            return false;
+        }
+        char[] phoneC = phoneNumber.toCharArray();
+        if (phoneC[0] != '+' || phoneC[1] != '1') {
+            System.out.println("The first characters of the phone number should be +1");
+            return false;
+        }
+        try { 
+            Long.parseLong(phoneNumber.substring(2)); 
+        }  
+        catch (NumberFormatException e)  { 
+            System.out.println(phoneNumber + " is not a valid phone number");
+            return false;
+        } 
         for (User user : manager.values()) {
-            if (user.getPhoneNumber() == phoneNumber)
+            if (user.getPhoneNumber().equals(phoneNumber)) 
                 return false;
         }
-        return (phoneNumber != 0);
+        return true;
     }
     
-    public boolean updateUser(String username, String newPassword, int newPhoneNumber) {
+    public boolean updateUser(String username, String newPassword, String newPhoneNumber) {
         if (!manager.containsKey(username)) {
             System.out.println("Error in updating user: This user does not exist");
             return false;
         }
-        if (manager.get(username).getPhoneNumber() != newPhoneNumber && !isPhoneNumberValid(newPhoneNumber)) {
-            System.out.println("Error in updating user: The phone number already exists");
+        if (!manager.get(username).getPhoneNumber().equals(newPhoneNumber) && !isPhoneNumberValid(newPhoneNumber)) {
+            System.out.println("Error in updating user: The phone number already exists or does not have a proper form");
             return false;
         }
-        manager.put (username, new User(username, hash(newPassword), newPhoneNumber));
+        manager.put (username, new User(username, hsh.hash(newPassword), newPhoneNumber));
         System.out.println("Updated user: " + new User(username, newPassword, newPhoneNumber));
         fileConverter.serializeUser(manager);
         return true;
@@ -112,4 +108,9 @@ public class UserRepository {
             System.out.println("Key: " + user.getKey() + " Value: " + user.getValue());
         }
     }
+    
+    public Map<String, User> getManager() {
+        return manager;
+    }
+    
 }

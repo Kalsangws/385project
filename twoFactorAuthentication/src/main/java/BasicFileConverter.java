@@ -31,7 +31,19 @@ public class BasicFileConverter implements FileConverter {
             out.close();
             fileOut.close();
         } catch (IOException e) {
-            Logger.getLogger(BasicFileConverter.class.getName()).log(Level.SEVERE, "Error serializing the map", e);
+            Logger.getLogger(BasicFileConverter.class.getName()).log(Level.SEVERE, "Error serializing the user map", e);
+        }
+    }
+    
+    public void serializePad(Map<String, String> padManager) {
+        try {
+            FileOutputStream fileOut = new FileOutputStream(fileName, false);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(padManager);
+            out.close();
+            fileOut.close();
+        } catch (IOException e) {
+            Logger.getLogger(BasicFileConverter.class.getName()).log(Level.SEVERE, "Error serializing the pad map", e);
         }
     }
 
@@ -44,11 +56,25 @@ public class BasicFileConverter implements FileConverter {
             in.close();
             fileIn.close();
         } catch (IOException | ClassNotFoundException e) {
-            Logger.getLogger(BasicFileConverter.class.getName()).log(Level.SEVERE, "Error deserializing the map", e);
+            Logger.getLogger(BasicFileConverter.class.getName()).log(Level.SEVERE, "Error deserializing the user map", e);
         }
         return manager;
     }
 
+    public Map<String, String> deserializePad() {
+        Map<String, String> padManager = null;
+        try {
+            FileInputStream fileIn = new FileInputStream(fileName);
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            padManager = (Map<String, String>) in.readObject();
+            in.close();
+            fileIn.close();
+        } catch (IOException | ClassNotFoundException e) {
+            Logger.getLogger(BasicFileConverter.class.getName()).log(Level.SEVERE, "Error deserializing the pad map", e);
+        }
+        return padManager;
+    }
+    
     public void fileClose() {
         this.file.delete();
     }
